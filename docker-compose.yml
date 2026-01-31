@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  drinksdb:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./images:/app/images
+      - ./backend:/app/backend
+      - ./frontend:/app/frontend

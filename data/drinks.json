@@ -1,0 +1,382 @@
+[
+    {
+        "id": "mojito",
+        "name": "Mojito",
+        "image": "/images/mojito.jpg",
+        "category": "Cocktail",
+        "alcohol_type": [
+            "Rum"
+        ],
+        "ingredients": [
+            "2 oz White rum",
+            "1 oz Fresh lime juice",
+            "2 tsp Sugar",
+            "6-8 Fresh mint leaves",
+            "Soda water",
+            "Ice cubes"
+        ],
+        "instructions": [
+            "Muddle mint leaves with sugar and lime juice in a glass",
+            "Fill the glass with ice cubes",
+            "Pour the rum over the ice",
+            "Top with soda water",
+            "Stir gently and garnish with mint sprig"
+        ],
+        "glass_type": "Highball glass",
+        "flavors": [
+            "Fresh",
+            "Minty",
+            "Citrus",
+            "Refreshing"
+        ],
+        "garnish": "Mint sprig and lime wheel"
+    },
+    {
+        "id": "old-fashioned",
+        "name": "Old Fashioned",
+        "image": "/images/old-fashioned.jpg",
+        "category": "Cocktail",
+        "alcohol_type": [
+            "Whisky"
+        ],
+        "ingredients": [
+            "2 oz Bourbon or Rye whisky",
+            "1 Sugar cube",
+            "2-3 dashes Angostura bitters",
+            "Orange peel",
+            "Ice cubes"
+        ],
+        "instructions": [
+            "Place sugar cube in glass and saturate with bitters",
+            "Add a splash of water and muddle until dissolved",
+            "Fill the glass with ice cubes",
+            "Add whisky and stir gently",
+            "Express orange peel over the drink and drop it in"
+        ],
+        "glass_type": "Old Fashioned glass",
+        "flavors": [
+            "Strong",
+            "Bitter",
+            "Sophisticated"
+        ],
+        "garnish": "Orange peel and cherry"
+    },
+    {
+        "id": "margarita",
+        "name": "Margarita",
+        "image": "/images/margarita.jpg",
+        "category": "Cocktail",
+        "alcohol_type": [
+            "Tequila"
+        ],
+        "ingredients": [
+            "2 oz Tequila",
+            "1 oz Cointreau or Triple Sec",
+            "1 oz Fresh lime juice",
+            "Salt for rim",
+            "Ice cubes"
+        ],
+        "instructions": [
+            "Rim the glass with salt",
+            "Add tequila, Cointreau, and lime juice to a shaker with ice",
+            "Shake vigorously for 15 seconds",
+            "Strain into the prepared glass over fresh ice"
+        ],
+        "glass_type": "Margarita glass",
+        "flavors": [
+            "Tangy",
+            "Citrus",
+            "Refreshing",
+            "Salty"
+        ],
+        "garnish": "Lime wheel"
+    },
+    {
+        "id": "martini",
+        "name": "Classic Martini",
+        "image": "/images/martini.jpg",
+        "category": "Cocktail",
+        "alcohol_type": [
+            "Gin",
+            "Vermouth"
+        ],
+        "ingredients": [
+            "2.5 oz Gin",
+            "0.5 oz Dry vermouth",
+            "Ice cubes"
+        ],
+        "instructions": [
+            "Fill a mixing glass with ice",
+            "Add gin and vermouth",
+            "Stir for 30 seconds",
+            "Strain into a chilled martini glass"
+        ],
+        "glass_type": "Martini glass",
+        "flavors": [
+            "Dry",
+            "Sophisticated",
+            "Strong"
+        ],
+        "garnish": "Lemon twist or olives"
+    },
+    {
+        "id": "pina-colada",
+        "name": "Piña Colada",
+        "image": "/images/pina-colada.jpg",
+        "category": "Cocktail",
+        "alcohol_type": [
+            "Rum"
+        ],
+        "ingredients": [
+            "2 oz White rum",
+            "3 oz Pineapple juice",
+            "2 oz Coconut cream",
+            "1 cup Ice",
+            "Pineapple wedge"
+        ],
+        "instructions": [
+            "Add rum, pineapple juice, coconut cream, and ice to a blender",
+            "Blend until smooth",
+            "Pour into a hurricane glass"
+        ],
+        "glass_type": "Hurricane glass",
+        "flavors": [
+            "Sweet",
+            "Tropical",
+            "Creamy",
+            "Fruity"
+        ],
+        "garnish": "Pineapple wedge and cherry"
+    },
+    {
+        "id": "negroni",
+        "name": "Negroni",
+        "image": "/images/negroni.jpg",
+        "category": "Cocktail",
+        "alcohol_type": [
+            "Gin",
+            "Vermouth",
+            "Campari"
+        ],
+        "ingredients": [
+            "1 oz Gin",
+            "1 oz Sweet vermouth",
+            "1 oz Campari",
+            "Ice cubes"
+        ],
+        "instructions": [
+            "Add gin, vermouth, and Campari to a mixing glass with ice",
+            "Stir well",
+            "Strain into a rocks glass over fresh ice"
+        ],
+        "glass_type": "Rocks glass",
+        "flavors": [
+            "Bitter",
+            "Aromatic",
+            "Complex"
+        ],
+        "garnish": "Orange peel"
+    },
+    {
+        "id": "cosmopolitan",
+        "name": "Cosmopolitan",
+        "image": "/images/cosmopolitan.jpg",
+        "category": "Cocktail",
+        "alcohol_type": [
+            "Vodka"
+        ],
+        "ingredients": [
+            "1.5 oz Vodka",
+            "1 oz Cointreau",
+            "0.5 oz Fresh lime juice",
+            "1 oz Cranberry juice",
+            "Ice cubes"
+        ],
+        "instructions": [
+            "Add all ingredients to a shaker with ice",
+            "Shake vigorously",
+            "Strain into a chilled martini glass"
+        ],
+        "glass_type": "Martini glass",
+        "flavors": [
+            "Tart",
+            "Fruity",
+            "Sophisticated"
+        ],
+        "garnish": "Lime wheel or orange peel"
+    },
+    {
+        "id": "whisky-sour",
+        "name": "Whisky Sour",
+        "image": "/images/whisky-sour.jpg",
+        "category": "Cocktail",
+        "alcohol_type": [
+            "Whisky"
+        ],
+        "ingredients": [
+            "2 oz Bourbon whisky",
+            "0.75 oz Fresh lemon juice",
+            "0.5 oz Simple syrup",
+            "1 Egg white (optional)",
+            "Ice cubes"
+        ],
+        "instructions": [
+            "Add whisky, lemon juice, simple syrup, and egg white to a shaker",
+            "Dry shake (without ice) for 15 seconds if using egg white",
+            "Add ice and shake vigorously",
+            "Strain into a rocks glass over fresh ice"
+        ],
+        "glass_type": "Rocks glass",
+        "flavors": [
+            "Sour",
+            "Smooth",
+            "Balanced"
+        ],
+        "garnish": "Cherry and orange slice"
+    },
+    {
+        "id": "moscow-mule",
+        "name": "Moscow Mule",
+        "image": "/images/moscow-mule.jpg",
+        "category": "Cocktail",
+        "alcohol_type": [
+            "Vodka"
+        ],
+        "ingredients": [
+            "2 oz Vodka",
+            "0.5 oz Fresh lime juice",
+            "4 oz Ginger beer",
+            "Ice cubes"
+        ],
+        "instructions": [
+            "Fill a copper mug or highball glass with ice",
+            "Add vodka and lime juice",
+            "Top with ginger beer",
+            "Stir gently"
+        ],
+        "glass_type": "Copper mug",
+        "flavors": [
+            "Spicy",
+            "Refreshing",
+            "Zesty"
+        ],
+        "garnish": "Lime wheel and mint sprig"
+    },
+    {
+        "id": "virgin-mojito",
+        "name": "Virgin Mojito",
+        "image": "/images/virgin-mojito.jpg",
+        "category": "Mocktail",
+        "alcohol_type": [],
+        "ingredients": [
+            "1 oz Fresh lime juice",
+            "2 tsp Sugar",
+            "8-10 Fresh mint leaves",
+            "Soda water",
+            "Ice cubes"
+        ],
+        "instructions": [
+            "Muddle mint leaves with sugar and lime juice in a glass",
+            "Fill the glass with ice cubes",
+            "Top with soda water",
+            "Stir gently and garnish with mint sprig"
+        ],
+        "glass_type": "Highball glass",
+        "flavors": [
+            "Fresh",
+            "Minty",
+            "Citrus",
+            "Non-alcoholic"
+        ],
+        "garnish": "Mint sprig and lime wheel"
+    },
+    {
+        "id": "daiquiri",
+        "name": "Daiquiri",
+        "image": "/images/daiquiri.jpg",
+        "category": "Cocktail",
+        "alcohol_type": [
+            "Rum"
+        ],
+        "ingredients": [
+            "2 oz White rum",
+            "1 oz Fresh lime juice",
+            "0.75 oz Simple syrup",
+            "Ice cubes"
+        ],
+        "instructions": [
+            "Add rum, lime juice, and simple syrup to a shaker with ice",
+            "Shake vigorously for 15 seconds",
+            "Strain into a chilled coupe glass"
+        ],
+        "glass_type": "Coupe glass",
+        "flavors": [
+            "Tart",
+            "Balanced",
+            "Refreshing"
+        ],
+        "garnish": "Lime wheel"
+    },
+    {
+        "id": "espresso-martini",
+        "name": "Espresso Martini",
+        "image": "/images/espresso-martini.jpg",
+        "category": "Cocktail",
+        "alcohol_type": [
+            "Vodka"
+        ],
+        "ingredients": [
+            "2 oz Vodka",
+            "1 oz Coffee liqueur (Kahlúa)",
+            "1 oz Freshly brewed espresso",
+            "0.5 oz Simple syrup",
+            "Ice cubes"
+        ],
+        "instructions": [
+            "Brew a shot of espresso and let it cool slightly",
+            "Add vodka, coffee liqueur, espresso, and simple syrup to a shaker with ice",
+            "Shake vigorously until well-chilled",
+            "Strain into a chilled martini glass"
+        ],
+        "glass_type": "Martini glass",
+        "flavors": [
+            "Bold",
+            "Coffee",
+            "Sweet",
+            "Energizing"
+        ],
+        "garnish": "Three coffee beans"
+    },
+    {
+        "id": "cuba-libre",
+        "name": "Cuba Libre",
+        "image": "/images/cuba-libre.jpg",
+        "category": "Cocktail",
+        "alcohol_type": [
+            "Rum"
+        ],
+        "ingredients": [
+            "2 oz Dark rum (spiced rum recommended)",
+            "4 oz Cola",
+            "0.5 oz Fresh lime juice",
+            "Lime wedge",
+            "Ice cubes"
+        ],
+        "instructions": [
+            "Fill a highball glass with ice",
+            "Squeeze lime wedge over ice and drop it in",
+            "Pour rum and lime juice over ice",
+            "Top with cola",
+            "Stir gently",
+            "Note: Spiced rum adds wonderful depth and complements the cola perfectly"
+        ],
+        "glass_type": "Highball glass",
+        "flavors": [
+            "Sweet",
+            "Refreshing",
+            "Classic",
+            "Spiced"
+        ],
+        "garnish": "Lime wedge"
+    }
+]
