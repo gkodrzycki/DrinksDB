@@ -49,9 +49,3 @@ class DrinkRead(DrinkCreate):
     pass
 
 
-class SearchFilters(SQLModel):
-    include_ingredients: Optional[List[str]] = None
-    exclude_ingredients: Optional[List[str]] = None
-    alcohol_types: Optional[List[str]] = None
-    flavors: Optional[List[str]] = None
-    category: Optional[str] = None

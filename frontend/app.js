@@ -15,6 +15,7 @@ const randomBtn = document.getElementById('randomBtn');
 const clearBtn = document.getElementById('clearBtn');
 const loadMoreBtn = document.getElementById('loadMoreBtn');
 const loadMoreContainer = document.getElementById('loadMoreContainer');
+const deleteRecipeBtn = document.getElementById('deleteRecipeBtn');
 
 // Input Fields
 const includeIngredientsInput = document.getElementById('includeIngredients');
@@ -42,6 +43,10 @@ function setupEventListeners() {
             closeModal();
         }
     });
+
+    if (deleteRecipeBtn) {
+        deleteRecipeBtn.addEventListener('click', handleDeleteRecipe);
+    }
 
     // Infinite scroll observer
     const observerOptions = {
@@ -173,6 +178,30 @@ function handleClearFilters() {
     categoryInput.value = '';
 
     fetchDrinks(true);
+}
+
+// Handle Delete Recipe
+async function handleDeleteRecipe() {
+    if (!currentDrink) return;
+
+    const confirmed = confirm(`Are you sure you want to permanently delete "${currentDrink.name}"?`);
+    if (!confirmed) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/drinks/${currentDrink.id}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete recipe');
+        }
+
+        closeModal();
+        fetchDrinks(true); // Refresh list
+    } catch (error) {
+        console.error('Error deleting recipe:', error);
+        alert('Failed to delete recipe. Please try again.');
+    }
 }
 
 // Get Filters from Inputs

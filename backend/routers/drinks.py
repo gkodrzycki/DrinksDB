@@ -7,7 +7,7 @@ from sqlmodel import Session, func, select
 
 from backend.database import get_session
 from backend.models import (Drink, DrinkCreate, DrinkIngredientLink, DrinkRead,
-                            Ingredient, SearchFilters)
+                            Ingredient)
 
 router = APIRouter(prefix="/api/drinks", tags=["drinks"])
 
@@ -116,6 +116,8 @@ def get_random_drink(
     alcohol_types: Optional[str] = Query(None),
     flavors: Optional[str] = Query(None),
     category: Optional[str] = Query(None),
+    offset: int = 0,
+    limit: int = 50,
     session: Session = Depends(get_session),
 ):
     results = search_drinks(
@@ -124,6 +126,8 @@ def get_random_drink(
         alcohol_types,
         flavors,
         category,
+        offset,
+        limit,
         session,
     )
     if not results:
@@ -182,3 +186,24 @@ def create_drink(drink: DrinkCreate, session: Session = Depends(get_session)):
 
     session.commit()
     return format_drink_read(db_drink, session)
+
+
+@router.delete("/{drink_id}")
+def delete_drink(drink_id: str, session: Session = Depends(get_session)):
+    drink = session.get(Drink, drink_id)
+    if not drink:
+        raise HTTPException(status_code=404, detail="Drink not found")
+
+    # Delete associated ingredient links first
+    links = session.exec(
+        select(DrinkIngredientLink).where(DrinkIngredientLink.drink_id == drink.id)
+    ).all()
+    for link in links:
+        session.delete(link)
+
+    # Note: We keep the Ingredients themselves in the DB in case they are used elsewhere,
+    # but we could conditionally delete orphans here if preferred.
+
+    session.delete(drink)
+    session.commit()
+    return {"message": f"Drink {drink_id} deleted successfully"}
