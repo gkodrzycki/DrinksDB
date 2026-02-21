@@ -61,8 +61,9 @@ DrinksDB/
 ├── backend/
 │   ├── __init__.py
 │   ├── main.py              # FastAPI application
-│   ├── models.py            # Pydantic models
-│   ├── data_handler.py      # JSON data operations
+│   ├── database.py          # SQLite database connection setup
+│   ├── migrate_json_to_db.py# Migration script for old JSON data
+│   ├── models.py            # SQLModel database tables & Pydantic models
 │   └── routers/
 │       └── drinks.py        # API endpoints
 ├── frontend/
@@ -70,7 +71,7 @@ DrinksDB/
 │   ├── style.css            # Styles
 │   └── app.js               # Frontend logic
 ├── data/
-│   └── drinks.json          # Drink recipes database
+│   └── drinks.db            # SQLite Drink recipes database
 ├── images/                  # Drink images (optional)
 ├── pyproject.toml           # Python dependencies
 ├── Dockerfile               # Docker configuration
@@ -79,45 +80,25 @@ DrinksDB/
 
 ## API Endpoints
 
-- `GET /api/drinks/` - Get all drinks
+- `GET /api/drinks/` - Get all drinks (paginated)
 - `GET /api/drinks/{id}` - Get specific drink by ID
 - `GET /api/drinks/search` - Search drinks with filters
-  - Query params: `include_ingredients`, `exclude_ingredients`, `alcohol_types`, `flavors`, `category`
+  - Query params: `include_ingredients`, `exclude_ingredients`, `alcohol_types`, `flavors`, `category`, `offset`, `limit`
+- `POST /api/drinks/` - Create a custom drink recipe
 - `GET /api/drinks/random` - Get random drink (supports same filters)
 - `GET /api/health` - Health check
 
 ## Adding Your Own Drinks
 
-Edit `data/drinks.json` to add new drinks. Each drink should follow this structure:
+You can add new custom recipes easily using the "+ Add Recipe" button available on the top right corner of the website. It supports adding names, ingredients, instructions, and even custom images.
 
-```json
-{
-  "id": "unique-id",
-  "name": "Drink Name",
-  "image": "/images/drink.jpg",
-  "category": "Cocktail",
-  "alcohol_type": ["Rum", "Vodka"],
-  "ingredients": [
-    "2 oz Ingredient 1",
-    "1 oz Ingredient 2"
-  ],
-  "instructions": [
-    "Step 1",
-    "Step 2"
-  ],
-  "glass_type": "Highball glass",
-  "flavors": ["Sweet", "Fruity"],
-  "garnish": "Lime wheel"
-}
-```
+If you are developing locally, drinks will be persistently saved into your local `data/drinks.db` SQLite database.
 
 ## Adding Images
 
 1. Place drink images in the `images/` directory
-2. Reference them in `drinks.json` as `/images/your-image.jpg`
-3. The app will automatically serve them
-
-
+2. Reference them in the app as `/images/your-image.jpg` or just provide any absolute URL like `https://example.com/mock.jpg`.
+3. The app will automatically serve local images and external URLs.
 
 ## Development
 
@@ -132,6 +113,6 @@ docker-compose up
 ```
 
 ## Future plans
-1. Probably worth moving drinks to database
-2. Host it somewhere?
-3. Add easier way to add new recipes (maybe a form/api?)
+- [x] Probably worth moving drinks to database
+- [ ] Host it somewhere?
+- [x] Add easier way to add new recipes (maybe a form/api?)
