@@ -1,18 +1,13 @@
-from fastapi import APIRouter, HTTPException, Query, Depends
-from sqlmodel import Session, select, func
-from typing import List, Optional
 import random
 import re
+from typing import List, Optional
 
-from backend.models import (
-    Drink,
-    DrinkRead,
-    DrinkCreate,
-    Ingredient,
-    DrinkIngredientLink,
-    SearchFilters,
-)
+from fastapi import APIRouter, Depends, HTTPException, Query
+from sqlmodel import Session, func, select
+
 from backend.database import get_session
+from backend.models import (Drink, DrinkCreate, DrinkIngredientLink, DrinkRead,
+                            Ingredient, SearchFilters)
 
 router = APIRouter(prefix="/api/drinks", tags=["drinks"])
 

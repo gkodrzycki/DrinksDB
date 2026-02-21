@@ -1,8 +1,10 @@
 import json
 import re
+
 from sqlmodel import Session
-from backend.models import Drink, Ingredient, DrinkIngredientLink
-from backend.database import engine, create_db_and_tables
+
+from backend.database import create_db_and_tables, engine
+from backend.models import Drink, DrinkIngredientLink, Ingredient
 
 
 def parse_ingredient(ingredient_str: str):

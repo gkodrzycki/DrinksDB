@@ -1,5 +1,6 @@
-from sqlmodel import SQLModel, create_engine, Session
 from pathlib import Path
+
+from sqlmodel import Session, SQLModel, create_engine
 
 # Create data directory if it doesn't exist
 DATA_DIR = Path("data")

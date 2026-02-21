@@ -1,6 +1,7 @@
-from sqlmodel import Field, SQLModel, Relationship, Column, JSON
 from typing import List, Optional
+
 from sqlalchemy import JSON as SAJSON
+from sqlmodel import JSON, Column, Field, Relationship, SQLModel
 
 
 class DrinkIngredientLink(SQLModel, table=True):

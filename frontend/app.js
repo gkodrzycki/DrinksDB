@@ -420,11 +420,13 @@ async function handleAddRecipeSubmit(e) {
 
     const drinkId = document.getElementById('newDrinkId').value.trim();
     const drinkName = document.getElementById('newDrinkName').value.trim();
+    const drinkImage = document.getElementById('newDrinkImage').value.trim();
     const drinkCategory = document.getElementById('newDrinkCategory').value.trim();
 
     const newDrink = {
         id: drinkId,
         name: drinkName,
+        image: drinkImage || null,
         category: drinkCategory,
         ingredients: currentIngredients,
         instructions: currentInstructions,

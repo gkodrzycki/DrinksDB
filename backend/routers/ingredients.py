@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends, Query, HTTPException
-from sqlmodel import Session, select
 from typing import List, Optional
 
-from backend.models import Ingredient
+from fastapi import APIRouter, Depends, HTTPException, Query
+from sqlmodel import Session, select
+
 from backend.database import get_session
+from backend.models import Ingredient
 
 router = APIRouter(prefix="/api/ingredients", tags=["ingredients"])
 
