@@ -13,6 +13,9 @@ const closeModalBtn = document.getElementById('closeModal');
 const searchBtn = document.getElementById('searchBtn');
 const randomBtn = document.getElementById('randomBtn');
 const clearBtn = document.getElementById('clearBtn');
+const loadMoreBtn = document.getElementById('loadMoreBtn');
+const loadMoreContainer = document.getElementById('loadMoreContainer');
+const deleteRecipeBtn = document.getElementById('deleteRecipeBtn');
 
 // Input Fields
 const includeIngredientsInput = document.getElementById('includeIngredients');
@@ -23,7 +26,7 @@ const categoryInput = document.getElementById('category');
 
 // Initialize App
 async function init() {
-    await loadAllDrinks();
+    await fetchDrinks(true);
     setupEventListeners();
 }
 
@@ -41,6 +44,30 @@ function setupEventListeners() {
         }
     });
 
+    if (deleteRecipeBtn) {
+        deleteRecipeBtn.addEventListener('click', handleDeleteRecipe);
+    }
+
+    // Infinite scroll observer
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const infiniteScrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !isLoading) {
+                currentOffset += PAGE_LIMIT;
+                fetchDrinks(false);
+            }
+        });
+    }, observerOptions);
+
+    if (loadMoreContainer) {
+        infiniteScrollObserver.observe(loadMoreContainer);
+    }
+
     // Allow Enter key to trigger search
     document.querySelectorAll('input[type="text"]').forEach(input => {
         input.addEventListener('keypress', (e) => {
@@ -51,44 +78,67 @@ function setupEventListeners() {
     });
 }
 
-// Load All Drinks
-async function loadAllDrinks() {
-    try {
+let currentOffset = 0;
+const PAGE_LIMIT = 20;
+let isLoading = false;
+
+// Load Drinks (All or Search)
+async function fetchDrinks(reset = true) {
+    if (isLoading) return;
+    isLoading = true;
+
+    if (reset) {
+        currentOffset = 0;
+        drinksContainer.innerHTML = '';
+        if (loadMoreContainer) loadMoreContainer.style.display = 'none';
+
+        // Only show full loading spinner on complete reset
         showLoading();
-        const response = await fetch(`${API_BASE_URL}/drinks/`);
+    }
+
+    const filters = getFilters();
+    const hasF = hasFilters(filters);
+
+    let url = `${API_BASE_URL}/drinks/`;
+    let queryString = `offset=${currentOffset}&limit=${PAGE_LIMIT}`;
+
+    if (hasF) {
+        url = `${API_BASE_URL}/drinks/search`;
+        queryString += '&' + buildQueryString(filters);
+    }
+
+    try {
+        const response = await fetch(`${url}?${queryString}`);
         if (!response.ok) throw new Error('Failed to fetch drinks');
 
-        allDrinks = await response.json();
-        displayDrinks(allDrinks);
+        const results = await response.json();
+
+        if (reset) drinksContainer.innerHTML = ''; // Clear loading
+
+        if (results.length === 0 && reset) {
+            showEmptyState();
+            isLoading = false;
+            return;
+        }
+
+        displayDrinks(results, reset);
+
+        if (results.length < PAGE_LIMIT) {
+            if (loadMoreContainer) loadMoreContainer.style.display = 'none';
+        } else {
+            if (loadMoreContainer) loadMoreContainer.style.display = 'block';
+        }
     } catch (error) {
-        console.error('Error loading drinks:', error);
-        showError('Failed to load drinks. Please try again.');
+        console.error('Error fetching drinks:', error);
+        if (reset) showError('Failed to load drinks. Please try again.');
+    } finally {
+        isLoading = false;
     }
 }
 
 // Handle Search
-async function handleSearch() {
-    const filters = getFilters();
-
-    // If no filters, show all drinks
-    if (!hasFilters(filters)) {
-        displayDrinks(allDrinks);
-        return;
-    }
-
-    try {
-        showLoading();
-        const queryString = buildQueryString(filters);
-        const response = await fetch(`${API_BASE_URL}/drinks/search?${queryString}`);
-
-        if (!response.ok) throw new Error('Search failed');
-
-        const results = await response.json();
-        displayDrinks(results);
-    } catch (error) {
-        console.error('Error searching drinks:', error);
-        showError('Search failed. Please try again.');
-    }
+function handleSearch() {
+    fetchDrinks(true);
 }
 
 // Handle Random Drink
@@ -127,7 +177,31 @@ function handleClearFilters() {
     flavorsInput.value = '';
     categoryInput.value = '';
 
-    displayDrinks(allDrinks);
+    fetchDrinks(true);
+}
+
+// Handle Delete Recipe
+async function handleDeleteRecipe() {
+    if (!currentDrink) return;
+
+    const confirmed = confirm(`Are you sure you want to permanently delete "${currentDrink.name}"?`);
+    if (!confirmed) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/drinks/${currentDrink.id}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete recipe');
+        }
+
+        closeModal();
+        fetchDrinks(true); // Refresh list
+    } catch (error) {
+        console.error('Error deleting recipe:', error);
+        alert('Failed to delete recipe. Please try again.');
+    }
 }
 
 // Get Filters from Inputs
@@ -160,11 +234,13 @@ function buildQueryString(filters) {
 }
 
 // Display Drinks
-function displayDrinks(drinks) {
-    drinksContainer.innerHTML = '';
+function displayDrinks(drinks, reset = true) {
+    if (reset) {
+        drinksContainer.innerHTML = '';
+    }
 
     if (!drinks || drinks.length === 0) {
-        showEmptyState();
+        if (reset) showEmptyState();
         return;
     }
 
@@ -277,3 +353,141 @@ function showEmptyState() {
 
 // Start the app
 init();
+
+// Add Recipe Logic
+const addRecipeBtn = document.getElementById('addRecipeBtn');
+const addRecipeModal = document.getElementById('addRecipeModal');
+const closeAddRecipeModal = document.getElementById('closeAddRecipeModal');
+const addRecipeForm = document.getElementById('addRecipeForm');
+const addIngredientBtn = document.getElementById('addIngredientBtn');
+const addInstructionBtn = document.getElementById('addInstructionBtn');
+const newIngredientsList = document.getElementById('newIngredientsList');
+const newInstructionsList = document.getElementById('newInstructionsList');
+const ingredientInput = document.getElementById('ingredientInput');
+const instructionInput = document.getElementById('instructionInput');
+
+let currentIngredients = [];
+let currentInstructions = [];
+
+// Event Listeners for Add Recipe
+if (addRecipeBtn) addRecipeBtn.addEventListener('click', () => {
+    addRecipeModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+});
+
+if (closeAddRecipeModal) closeAddRecipeModal.addEventListener('click', closeAddRecipe);
+if (addRecipeForm) addRecipeForm.addEventListener('submit', handleAddRecipeSubmit);
+
+// Add Ingredient to List
+if (addIngredientBtn) addIngredientBtn.addEventListener('click', () => {
+    const val = ingredientInput.value.trim();
+    if (val) {
+        currentIngredients.push(val);
+        renderAddedLists();
+        ingredientInput.value = '';
+    }
+});
+
+// Add Instruction to List
+if (addInstructionBtn) addInstructionBtn.addEventListener('click', () => {
+    const val = instructionInput.value.trim();
+    if (val) {
+        currentInstructions.push(val);
+        renderAddedLists();
+        instructionInput.value = '';
+    }
+});
+
+function renderAddedLists() {
+    if (newIngredientsList) {
+        newIngredientsList.innerHTML = currentIngredients.map((ing, i) => `
+            <div class="added-item">
+                <span>${ing}</span>
+                <button type="button" class="remove-btn" onclick="removeIngredient(${i})">&times;</button>
+            </div>
+        `).join('');
+    }
+
+    if (newInstructionsList) {
+        newInstructionsList.innerHTML = currentInstructions.map((inst, i) => `
+            <div class="added-item">
+                <span>${i + 1}. ${inst}</span>
+                <button type="button" class="remove-btn" onclick="removeInstruction(${i})">&times;</button>
+            </div>
+        `).join('');
+    }
+}
+
+window.removeIngredient = (index) => {
+    currentIngredients.splice(index, 1);
+    renderAddedLists();
+};
+
+window.removeInstruction = (index) => {
+    currentInstructions.splice(index, 1);
+    renderAddedLists();
+};
+
+function closeAddRecipe(e) {
+    if (e) e.preventDefault();
+    if (addRecipeModal) addRecipeModal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+async function handleAddRecipeSubmit(e) {
+    e.preventDefault();
+
+    if (currentIngredients.length === 0) {
+        alert("Please add at least one ingredient!");
+        return;
+    }
+
+    if (currentInstructions.length === 0) {
+        alert("Please add at least one instruction step!");
+        return;
+    }
+
+    const drinkId = document.getElementById('newDrinkId').value.trim();
+    const drinkName = document.getElementById('newDrinkName').value.trim();
+    const drinkImage = document.getElementById('newDrinkImage').value.trim();
+    const drinkCategory = document.getElementById('newDrinkCategory').value.trim();
+
+    const newDrink = {
+        id: drinkId,
+        name: drinkName,
+        image: drinkImage || null,
+        category: drinkCategory,
+        ingredients: currentIngredients,
+        instructions: currentInstructions,
+        alcohol_type: [],
+        flavors: []
+    };
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/drinks/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newDrink)
+        });
+
+        if (!response.ok) {
+            const data = await response.json();
+            throw new Error(data.detail || 'Failed to save recipe');
+        }
+
+        // Reset form
+        addRecipeForm.reset();
+        currentIngredients = [];
+        currentInstructions = [];
+        renderAddedLists();
+
+        closeAddRecipe();
+        alert('Recipe added successfully!');
+
+        fetchDrinks(true);
+
+    } catch (error) {
+        console.error('Error adding recipe:', error);
+        alert(error.message);
+    }
+}

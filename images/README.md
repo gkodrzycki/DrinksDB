@@ -1,3 +1,3 @@
 # Images Directory
-Place your drink images here and reference them in `data/drinks.json` as `/images/filename.jpg`.
-The images will be automatically served by the FastAPI backend.
+Place your local drink images here. You can reference them when adding a new recipe via the UI by entering `/images/filename.jpg` (or the appropriate extension) into the "Image URL" field.
+These images are automatically served by the FastAPI backend.

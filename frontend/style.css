@@ -154,6 +154,17 @@ select:focus {
   box-shadow: 0 6px 20px rgba(244, 63, 94, 0.4);
 }
 
+.btn-danger {
+  background: linear-gradient(135deg, hsl(350, 70%, 45%), hsl(350, 70%, 35%));
+  color: white;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+}
+
 .button-group {
   display: flex;
   gap: var(--spacing-md);
@@ -429,4 +440,58 @@ select:focus {
   .drinks-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: calc(100% - 90px);
+  background: var(--bg-hover);
+  border: 1px solid var(--primary-light);
+  border-radius: var(--radius-sm);
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 99999;
+  display: none;
+  box-shadow: var(--shadow-lg);
+}
+
+.autocomplete-item {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  cursor: pointer;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-item:hover {
+  background: var(--primary-dark);
+}
+
+.added-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--primary);
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.remove-btn:hover {
+  color: var(--accent);
 }

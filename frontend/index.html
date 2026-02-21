@@ -14,9 +14,13 @@
 
 <body>
     <header>
-        <div class="container">
-            <h1>🍸 DrinksDB</h1>
-            <p style="color: var(--text-secondary); font-size: 1.1rem;">Your Personal Home Bar Companion</p>
+        <div class="container"
+            style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <h1>🍸 DrinksDB</h1>
+                <p style="color: var(--text-secondary); font-size: 1.1rem;">Your Personal Home Bar Companion</p>
+            </div>
+            <button class="btn btn-secondary" id="addRecipeBtn">+ Add Recipe</button>
         </div>
     </header>
 
@@ -60,6 +64,10 @@
         <!-- Drinks Display Section -->
         <section id="drinksSection">
             <div id="drinksContainer" class="drinks-grid"></div>
+            <div id="loadMoreContainer" class="load-more-container"
+                style="display: none; text-align: center; margin-top: 2rem; color: var(--text-secondary);">
+                Loading more drinks...
+            </div>
         </section>
     </main>
 
@@ -69,6 +77,59 @@
             <span class="close-modal" id="closeModal">&times;</span>
             <div class="modal-body" id="modalBody">
                 <!-- Dynamic content will be inserted here -->
+            </div>
+            <div class="modal-footer"
+                style="margin-top: var(--spacing-lg); text-align: center; border-top: 1px solid var(--border-color); padding-top: var(--spacing-sm);">
+                <button id="deleteRecipeBtn" class="btn btn-danger">Delete Recipe</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Recipe Modal -->
+    <div id="addRecipeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeAddRecipeModal">&times;</span>
+            <div class="modal-body">
+                <h2 style="margin-bottom: var(--spacing-lg); color: var(--primary-light);">Add New Recipe</h2>
+                <form id="addRecipeForm">
+                    <div class="filter-group">
+                        <label for="newDrinkId">Drink ID (unique, lowercase w/ dashes)</label>
+                        <input type="text" id="newDrinkId" placeholder="e.g. custom-mojito" required>
+                    </div>
+                    <div class="filter-group">
+                        <label for="newDrinkName">Name</label>
+                        <input type="text" id="newDrinkName" placeholder="e.g. Custom Mojito" required>
+                    </div>
+                    <div class="filter-group">
+                        <label for="newDrinkImage">Image URL (optional)</label>
+                        <input type="text" id="newDrinkImage" placeholder="e.g. https://example.com/image.jpg">
+                    </div>
+                    <div class="filter-group">
+                        <label for="newDrinkCategory">Category</label>
+                        <input type="text" id="newDrinkCategory" placeholder="e.g. Cocktail" required>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Ingredients</label>
+                        <div id="newIngredientsList" style="margin-bottom: var(--spacing-sm);"></div>
+                        <div style="display: flex; gap: var(--spacing-sm); position: relative;">
+                            <input type="text" id="ingredientInput" placeholder="e.g. 2 oz Dark Rum">
+                            <button type="button" class="btn btn-secondary" id="addIngredientBtn">Add</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Instructions</label>
+                        <div id="newInstructionsList" style="margin-bottom: var(--spacing-sm);"></div>
+                        <div style="display: flex; gap: var(--spacing-sm);">
+                            <input type="text" id="instructionInput" placeholder="e.g. Shake with ice">
+                            <button type="button" class="btn btn-secondary" id="addInstructionBtn">Add</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary"
+                        style="width: 100%; margin-top: var(--spacing-lg);">Save Recipe</button>
+                </form>
             </div>
         </div>
     </div>
