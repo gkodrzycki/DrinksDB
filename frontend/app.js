@@ -26,6 +26,7 @@ const categoryInput = document.getElementById('category');
 
 // Initialize App
 async function init() {
+    initI18n();
     await fetchDrinks(true);
     setupEventListeners();
 }
@@ -130,7 +131,7 @@ async function fetchDrinks(reset = true) {
         }
     } catch (error) {
         console.error('Error fetching drinks:', error);
-        if (reset) showError('Failed to load drinks. Please try again.');
+        if (reset) showError(t('errorLoad'));
     } finally {
         isLoading = false;
     }
@@ -155,17 +156,17 @@ async function handleRandomDrink() {
 
         if (!response.ok) {
             if (response.status === 404) {
-                showError('No drinks found matching your criteria.');
+                showError(t('noMatchRandom'));
                 return;
             }
-            throw new Error('Failed to get random drink');
+            throw new Error(t('errorRandom'));
         }
 
         const drink = await response.json();
         showDrinkModal(drink);
     } catch (error) {
         console.error('Error getting random drink:', error);
-        showError('Failed to get random drink. Please try again.');
+        showError(t('errorRandom'));
     }
 }
 
@@ -184,7 +185,7 @@ function handleClearFilters() {
 async function handleDeleteRecipe() {
     if (!currentDrink) return;
 
-    const confirmed = confirm(`Are you sure you want to permanently delete "${currentDrink.name}"?`);
+    const confirmed = confirm(`${t('confirmDelete')} "${currentDrink.name}"?`);
     if (!confirmed) return;
 
     try {
@@ -200,7 +201,7 @@ async function handleDeleteRecipe() {
         fetchDrinks(true); // Refresh list
     } catch (error) {
         console.error('Error deleting recipe:', error);
-        alert('Failed to delete recipe. Please try again.');
+        alert(t('errorDelete'));
     }
 }
 
@@ -257,7 +258,7 @@ function createDrinkCard(drink) {
     card.onclick = () => showDrinkModal(drink);
 
     const imageSrc = drink.image || '';
-    const alcoholTypes = drink.alcohol_type?.join(', ') || 'Non-alcoholic';
+    const alcoholTypes = drink.alcohol_type?.join(', ') || t('nonAlcoholic');
 
     card.innerHTML = `
         ${imageSrc ? `<img src="${imageSrc}" alt="${drink.name}" class="drink-image">` : '<div class="drink-image"></div>'}
@@ -268,7 +269,7 @@ function createDrinkCard(drink) {
                 ${alcoholTypes}
             </p>
             <div class="drink-tags">
-                ${drink.flavors?.map(flavor => `<span class="tag">${flavor}</span>`).join('') || ''}
+                ${drink.flavors?.map(flavor => `<span class="tag">${translateFlavor(flavor)}</span>`).join('') || ''}
             </div>
         </div>
     `;
@@ -281,27 +282,27 @@ function showDrinkModal(drink) {
     currentDrink = drink;
 
     const imageSrc = drink.image || '';
-    const alcoholTypes = drink.alcohol_type?.join(', ') || 'Non-alcoholic';
+    const alcoholTypes = drink.alcohol_type?.join(', ') || t('nonAlcoholic');
 
     modalBody.innerHTML = `
         ${imageSrc ? `<img src="${imageSrc}" alt="${drink.name}" class="modal-image">` : '<div class="modal-image"></div>'}
         <h2 class="drink-name">${drink.name}</h2>
         <span class="drink-category">${drink.category}</span>
         <p style="color: var(--text-secondary); margin: var(--spacing-sm) 0;">
-            <strong>Alcohol:</strong> ${alcoholTypes}
+            <strong>${t('alcohol')}</strong> ${alcoholTypes}
         </p>
-        ${drink.glass_type ? `<p style="color: var(--text-secondary);"><strong>Glass:</strong> ${drink.glass_type}</p>` : ''}
-        ${drink.garnish ? `<p style="color: var(--text-secondary);"><strong>Garnish:</strong> ${drink.garnish}</p>` : ''}
+        ${drink.glass_type ? `<p style="color: var(--text-secondary);"><strong>${t('glass')}</strong> ${drink.glass_type}</p>` : ''}
+        ${drink.garnish ? `<p style="color: var(--text-secondary);"><strong>${t('garnish')}</strong> ${drink.garnish}</p>` : ''}
 
         <div class="ingredients-list">
-            <h3>Ingredients</h3>
+            <h3>${t('ingredients')}</h3>
             <ul>
-                ${drink.ingredients.map(ing => `<li>${ing}</li>`).join('')}
+                ${drink.ingredients.map(ing => `<li>${translateIngredient(ing)}</li>`).join('')}
             </ul>
         </div>
 
         <div class="instructions-list">
-            <h3>Instructions</h3>
+            <h3>${t('instructions')}</h3>
             <ol>
                 ${drink.instructions.map(step => `<li>${step}</li>`).join('')}
             </ol>
@@ -309,9 +310,9 @@ function showDrinkModal(drink) {
 
         ${drink.flavors?.length ? `
             <div style="margin-top: var(--spacing-lg);">
-                <h3 style="color: var(--primary-light); margin-bottom: var(--spacing-sm);">Flavor Profile</h3>
+                <h3 style="color: var(--primary-light); margin-bottom: var(--spacing-sm);">${t('flavorProfile')}</h3>
                 <div class="drink-tags">
-                    ${drink.flavors.map(flavor => `<span class="tag">${flavor}</span>`).join('')}
+                    ${drink.flavors.map(flavor => `<span class="tag">${translateFlavor(flavor)}</span>`).join('')}
                 </div>
             </div>
         ` : ''}
@@ -329,7 +330,7 @@ function closeModal() {
 
 // Show Loading State
 function showLoading() {
-    drinksContainer.innerHTML = '<div class="loading">Loading drinks</div>';
+    drinksContainer.innerHTML = `<div class="loading">${t('loading')}</div>`;
 }
 
 // Show Error
@@ -345,8 +346,8 @@ function showError(message) {
 function showEmptyState() {
     drinksContainer.innerHTML = `
         <div class="empty-state">
-            <h3>🔍 No drinks found</h3>
-            <p>Try adjusting your filters or clearing them to see all drinks.</p>
+            <h3>${t('noResults')}</h3>
+            <p>${t('noResultsHint')}</p>
         </div>
     `;
 }
@@ -438,12 +439,12 @@ async function handleAddRecipeSubmit(e) {
     e.preventDefault();
 
     if (currentIngredients.length === 0) {
-        alert("Please add at least one ingredient!");
+        alert(t('alertNoIngredients'));
         return;
     }
 
     if (currentInstructions.length === 0) {
-        alert("Please add at least one instruction step!");
+        alert(t('alertNoInstructions'));
         return;
     }
 
@@ -472,7 +473,7 @@ async function handleAddRecipeSubmit(e) {
 
         if (!response.ok) {
             const data = await response.json();
-            throw new Error(data.detail || 'Failed to save recipe');
+            throw new Error(data.detail || t('alertSaveFailed'));
         }
 
         // Reset form
@@ -482,7 +483,7 @@ async function handleAddRecipeSubmit(e) {
         renderAddedLists();
 
         closeAddRecipe();
-        alert('Recipe added successfully!');
+        alert(t('alertRecipeAdded'));
 
         fetchDrinks(true);
 

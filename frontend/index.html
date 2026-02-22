@@ -18,46 +18,59 @@
             style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
             <div>
                 <h1>🍸 DrinksDB</h1>
-                <p style="color: var(--text-secondary); font-size: 1.1rem;">Your Personal Home Bar Companion</p>
+                <p data-i18n="subtitle" style="color: var(--text-secondary); font-size: 1.1rem;">Your Personal Home Bar
+                    Companion</p>
             </div>
-            <button class="btn btn-secondary" id="addRecipeBtn">+ Add Recipe</button>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div class="lang-toggle">
+                    <button class="lang-btn active" data-lang="en">🇬🇧</button>
+                    <button class="lang-btn" data-lang="pl">🇵🇱</button>
+                </div>
+                <button class="btn btn-secondary" id="addRecipeBtn" data-i18n="addRecipe">+ Add Recipe</button>
+            </div>
         </div>
     </header>
 
     <main class="container">
         <!-- Search and Filter Section -->
         <section class="filters-section">
-            <h2 style="margin-bottom: var(--spacing-lg); color: var(--primary-light);">Find Your Perfect Drink</h2>
+            <h2 data-i18n="filterHeading" style="margin-bottom: var(--spacing-lg); color: var(--primary-light);">Find
+                Your Perfect Drink</h2>
 
             <div class="filter-group">
-                <label for="includeIngredients">Include Ingredients (comma-separated)</label>
-                <input type="text" id="includeIngredients" placeholder="e.g., rum, lime, mint">
+                <label for="includeIngredients" data-i18n="labelInclude">Include Ingredients (comma-separated)</label>
+                <input type="text" id="includeIngredients" data-i18n-placeholder="phInclude"
+                    placeholder="e.g., rum, lime, mint">
             </div>
 
             <div class="filter-group">
-                <label for="excludeIngredients">Exclude Ingredients (comma-separated)</label>
-                <input type="text" id="excludeIngredients" placeholder="e.g., whisky, tequila">
+                <label for="excludeIngredients" data-i18n="labelExclude">Exclude Ingredients (comma-separated)</label>
+                <input type="text" id="excludeIngredients" data-i18n-placeholder="phExclude"
+                    placeholder="e.g., whisky, tequila">
             </div>
 
             <div class="filter-group">
-                <label for="alcoholTypes">Alcohol Type (comma-separated)</label>
-                <input type="text" id="alcoholTypes" placeholder="e.g., vodka, gin">
+                <label for="alcoholTypes" data-i18n="labelAlcohol">Alcohol Type (comma-separated)</label>
+                <input type="text" id="alcoholTypes" data-i18n-placeholder="phAlcohol" placeholder="e.g., vodka, gin">
             </div>
 
             <div class="filter-group">
-                <label for="flavors">Flavors (comma-separated)</label>
-                <input type="text" id="flavors" placeholder="e.g., sweet, sour, fruity">
+                <label for="flavors" data-i18n="labelFlavors">Flavors (comma-separated)</label>
+                <input type="text" id="flavors" data-i18n-placeholder="phFlavors"
+                    placeholder="e.g., sweet, sour, fruity">
             </div>
 
             <div class="filter-group">
-                <label for="category">Category</label>
-                <input type="text" id="category" placeholder="e.g., Cocktail, Mocktail, Shot">
+                <label for="category" data-i18n="labelCategory">Category</label>
+                <input type="text" id="category" data-i18n-placeholder="phCategory"
+                    placeholder="e.g., Cocktail, Mocktail, Shot">
             </div>
 
             <div class="button-group">
-                <button class="btn btn-primary" id="searchBtn">Search Drinks</button>
-                <button class="btn btn-secondary" id="randomBtn">Get Random Drink</button>
-                <button class="btn btn-primary" id="clearBtn" style="opacity: 0.7;">Clear Filters</button>
+                <button class="btn btn-primary" id="searchBtn" data-i18n="searchBtn">Search Drinks</button>
+                <button class="btn btn-secondary" id="randomBtn" data-i18n="randomBtn">Get Random Drink</button>
+                <button class="btn btn-primary" id="clearBtn" style="opacity: 0.7;" data-i18n="clearBtn">Clear
+                    Filters</button>
             </div>
         </section>
 
@@ -65,7 +78,8 @@
         <section id="drinksSection">
             <div id="drinksContainer" class="drinks-grid"></div>
             <div id="loadMoreContainer" class="load-more-container"
-                style="display: none; text-align: center; margin-top: 2rem; color: var(--text-secondary);">
+                style="display: none; text-align: center; margin-top: 2rem; color: var(--text-secondary);"
+                data-i18n="loadingMore">
                 Loading more drinks...
             </div>
         </section>
@@ -80,7 +94,7 @@
             </div>
             <div class="modal-footer"
                 style="margin-top: var(--spacing-lg); text-align: center; border-top: 1px solid var(--border-color); padding-top: var(--spacing-sm);">
-                <button id="deleteRecipeBtn" class="btn btn-danger">Delete Recipe</button>
+                <button id="deleteRecipeBtn" class="btn btn-danger" data-i18n="deleteBtn">🗑️ Delete Recipe</button>
             </div>
         </div>
     </div>
@@ -90,50 +104,60 @@
         <div class="modal-content">
             <span class="close-modal" id="closeAddRecipeModal">&times;</span>
             <div class="modal-body">
-                <h2 style="margin-bottom: var(--spacing-lg); color: var(--primary-light);">Add New Recipe</h2>
+                <h2 data-i18n="addRecipeHeading" style="margin-bottom: var(--spacing-lg); color: var(--primary-light);">
+                    Add New Recipe</h2>
                 <form id="addRecipeForm">
                     <div class="filter-group">
-                        <label for="newDrinkId">Drink ID (unique, lowercase w/ dashes)</label>
-                        <input type="text" id="newDrinkId" placeholder="e.g. custom-mojito" required>
+                        <label for="newDrinkId" data-i18n="labelDrinkId">Drink ID (unique, lowercase w/ dashes)</label>
+                        <input type="text" id="newDrinkId" data-i18n-placeholder="phDrinkId"
+                            placeholder="e.g. custom-mojito" required>
                     </div>
                     <div class="filter-group">
-                        <label for="newDrinkName">Name</label>
-                        <input type="text" id="newDrinkName" placeholder="e.g. Custom Mojito" required>
+                        <label for="newDrinkName" data-i18n="labelName">Name</label>
+                        <input type="text" id="newDrinkName" data-i18n-placeholder="phName"
+                            placeholder="e.g. Custom Mojito" required>
                     </div>
                     <div class="filter-group">
-                        <label for="newDrinkImage">Image URL (optional)</label>
-                        <input type="text" id="newDrinkImage" placeholder="e.g. https://example.com/image.jpg">
+                        <label for="newDrinkImage" data-i18n="labelImage">Image URL (optional)</label>
+                        <input type="text" id="newDrinkImage" data-i18n-placeholder="phImage"
+                            placeholder="e.g. https://example.com/image.jpg">
                     </div>
                     <div class="filter-group">
-                        <label for="newDrinkCategory">Category</label>
-                        <input type="text" id="newDrinkCategory" placeholder="e.g. Cocktail" required>
+                        <label for="newDrinkCategory" data-i18n="labelCategoryForm">Category</label>
+                        <input type="text" id="newDrinkCategory" data-i18n-placeholder="phCategoryForm"
+                            placeholder="e.g. Cocktail" required>
                     </div>
 
                     <div class="filter-group">
-                        <label>Ingredients</label>
+                        <label data-i18n="labelIngredients">Ingredients</label>
                         <div id="newIngredientsList" style="margin-bottom: var(--spacing-sm);"></div>
                         <div style="display: flex; gap: var(--spacing-sm); position: relative;">
-                            <input type="text" id="ingredientInput" placeholder="e.g. 2 oz Dark Rum">
-                            <button type="button" class="btn btn-secondary" id="addIngredientBtn">Add</button>
+                            <input type="text" id="ingredientInput" data-i18n-placeholder="phIngredient"
+                                placeholder="e.g. 2 oz Dark Rum">
+                            <button type="button" class="btn btn-secondary" id="addIngredientBtn"
+                                data-i18n="addBtn">Add</button>
                         </div>
                     </div>
 
                     <div class="filter-group">
-                        <label>Instructions</label>
+                        <label data-i18n="labelInstructions">Instructions</label>
                         <div id="newInstructionsList" style="margin-bottom: var(--spacing-sm);"></div>
                         <div style="display: flex; gap: var(--spacing-sm);">
-                            <input type="text" id="instructionInput" placeholder="e.g. Shake with ice">
-                            <button type="button" class="btn btn-secondary" id="addInstructionBtn">Add</button>
+                            <input type="text" id="instructionInput" data-i18n-placeholder="phInstruction"
+                                placeholder="e.g. Shake with ice">
+                            <button type="button" class="btn btn-secondary" id="addInstructionBtn"
+                                data-i18n="addBtn">Add</button>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary"
-                        style="width: 100%; margin-top: var(--spacing-lg);">Save Recipe</button>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: var(--spacing-lg);"
+                        data-i18n="saveBtn">Save Recipe</button>
                 </form>
             </div>
         </div>
     </div>
 
+    <script src="i18n.js"></script>
     <script src="app.js"></script>
 </body>
 
