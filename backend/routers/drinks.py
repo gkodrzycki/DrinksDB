@@ -6,8 +6,13 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import Session, func, select
 
 from backend.database import get_session
-from backend.models import (Drink, DrinkCreate, DrinkIngredientLink, DrinkRead,
-                            Ingredient)
+from backend.models import (
+    Drink,
+    DrinkCreate,
+    DrinkIngredientLink,
+    DrinkRead,
+    Ingredient,
+)
 
 router = APIRouter(prefix="/api/drinks", tags=["drinks"])
 

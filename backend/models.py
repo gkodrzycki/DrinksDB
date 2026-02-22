@@ -47,5 +47,3 @@ class DrinkCreate(SQLModel):
 
 class DrinkRead(DrinkCreate):
     pass
-
-

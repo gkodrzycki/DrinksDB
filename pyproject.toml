@@ -8,3 +8,11 @@ dependencies = [
     "sqlmodel>=0.0.37",
     "uvicorn[standard]>=0.32.0",
 ]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
