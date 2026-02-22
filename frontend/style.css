@@ -154,6 +154,17 @@ select:focus {
   box-shadow: 0 6px 20px rgba(244, 63, 94, 0.4);
 }
 
+.btn-danger {
+  background: linear-gradient(135deg, hsl(350, 70%, 45%), hsl(350, 70%, 35%));
+  color: white;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+}
+
 .button-group {
   display: flex;
   gap: var(--spacing-md);

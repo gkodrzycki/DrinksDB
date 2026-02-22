@@ -114,6 +114,6 @@ docker-compose up
 
 ## Future plans
 - [x] Probably worth moving drinks to database
-- [ ] Host it somewhere?
 - [x] Add easier way to add new recipes (maybe a form/api?)
+- [ ] Host it somewhere?
 - [ ] Improve get random drink logic, it takes random drink only from first 50 drinks (or whatever limit is set to)
